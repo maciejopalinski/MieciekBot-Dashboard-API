@@ -1,7 +1,6 @@
 {
     "name": "mieciekbot-dashboard-api",
     "version": "4.0.0",
-    "private": true,
     "main": "src/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
