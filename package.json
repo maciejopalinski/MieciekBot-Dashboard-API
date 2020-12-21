@@ -1,21 +1,29 @@
 {
-	"name": "mieciekbot",
-	"version": "4.0.0",
-	"description": "An open source Node.js Discord bot.",
-	"private": true,
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start:discord-bot": "cd discord-bot/ && npm i && npm start",
-		"start:dashboard-api": "cd dashboard-api/ && npm i && npm start",
-		"start:dashboard-client": "cd dashboard-client/ && yarn install && yarn start",
-		"dev:discord-bot": "cd discord-bot/ && npm run dev",
-		"dev:dashboard-api": "cd dashboard-api/ && npm run dev",
-		"dev:dashboard-client": "cd dashboard-client/ && yarn start"
-	},
-	"author": "Maciej Opaliński <poprostumieciek@gmail.com>",
-	"repository": {
-		"url": "https://github.com/PoProstuMieciek/MieciekBot.git"
-	},
-	"license": "MIT"
+    "name": "mieciekbot-dashboard-api",
+    "version": "4.0.0",
+    "private": true,
+    "main": "src/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node src/index.js",
+        "dev": "nodemon --require dotenv/config --inspect=9230 src/index.js"
+    },
+    "dependencies": {
+        "connect-mongo": "^3.2.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "mongoose": "^5.11.8",
+        "node-fetch": "^2.6.1",
+        "passport": "^0.4.1",
+        "passport-discord": "^0.1.4"
+    },
+    "devDependencies": {
+        "dotenv": "^8.2.0"
+    },
+    "author": "Maciej Opaliński <poprostumieciek@gmail.com>",
+    "repository": {
+        "url": "https://github.com/PoProstuMieciek/MieciekBot.git"
+    },
+    "license": "MIT"
 }
