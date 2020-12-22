@@ -41,5 +41,5 @@ app.use('/api', routes);
 
 app.get('*', (req, res) => ErrorPages.not_found(res));
 
-const PORT = process.env.DASHBOARD_API_PORT || 8080;
+const PORT = process.env.DASHBOARD_API_PORT || process.env.PORT;
 app.listen(PORT, () => console.log(`MieciekBot Dashboard API running on port ${PORT}`));
