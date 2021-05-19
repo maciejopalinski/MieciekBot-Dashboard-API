@@ -2,13 +2,39 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Attach to MieciekBot Dashboard API",
+            "name": "npm run dev:ts",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev:ts"
+            ],
             "port": 9230,
+            "stopOnEntry": true
+        },
+        {
+            "name": "npm run dev:js",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev:js"
+            ],
+            "port": 9230,
+            "stopOnEntry": true
+        },
+        {
+            "name": "Attach",
+            "type": "pwa-node",
             "request": "attach",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "pwa-node",
+            "port": 9230,
             "restart": { "delay": 0, "maxAttempts": 3 }
         }
     ]
