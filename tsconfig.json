@@ -14,12 +14,11 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "resolveJsonModule": true,
-
-        "skipLibCheck": true
+        "resolveJsonModule": true
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "package.json"
     ],
     "exclude": [
         "node_modules"
