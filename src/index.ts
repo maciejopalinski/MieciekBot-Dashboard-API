@@ -4,6 +4,8 @@ import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import cors from 'cors';
+import responseTime from 'response-time';
+import redis from 'redis';
 
 import routes from './routes';
 import './strategies/discord';
@@ -22,7 +24,7 @@ const DATABASE = process.env.DASHBOARD_API_DATABASE || process.env.DATABASE;
 const PORT = +process.env.DASHBOARD_API_PORT || +process.env.PORT;
 
 const app = express();
-export default app;
+export const redis_client = redis.createClient();
 
 mongoose.connect(DATABASE, {
     useNewUrlParser: true,
@@ -41,11 +43,13 @@ app.use(session({
     cookie: { maxAge: 60000 * 60 * 24 },
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: DATABASE, collectionName: 'dashboard-sessions' })
+    store: MongoStore.create({ mongoUrl: DATABASE, collectionName: 'dashboard_sessions' })
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(responseTime());
 
 app.get('/', (req, res) => res.redirect('/api'));
 app.use('/api', routes);
