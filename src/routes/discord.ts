@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getMutualGuilds, getUserGuilds, Error } from '../utils';
+import { getMutualGuilds, Error } from '../utils';
 import { Guild } from '../database/schemas';
 import ErrorPages from '../templates/ErrorPages';
 
@@ -9,14 +9,6 @@ const router = Router();
 router.get('/@me', (req, res) => {
     if(req.user) {
         res.send(req.user);
-    }
-    else ErrorPages.unauthorized(res);
-});
-
-// /api/discord/guilds/fetch
-router.get('/guilds/fetch', async (req, res) => {
-    if(req.user) {
-        res.send(await getUserGuilds(req.user.id));
     }
     else ErrorPages.unauthorized(res);
 });
