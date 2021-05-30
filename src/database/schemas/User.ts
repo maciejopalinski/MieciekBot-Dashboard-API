@@ -6,15 +6,13 @@ export interface IUser extends mongoose.Document {
     username: string;
     discriminator: string;
     avatar: string;
-    guilds: GuildInfo[];
 }
 
 const UserSchema = new mongoose.Schema({
     id: { type: String, required: true, unique: true },
     username: { type: String, required: true },
     discriminator: { type: String, required: true },
-    avatar: { type: String, required: true },
-    guilds: { type: [Object], required: true }
+    avatar: { type: String, required: true }
 });
 
 export const User = mongoose.model<IUser>('User', UserSchema, 'dashboard_users');
