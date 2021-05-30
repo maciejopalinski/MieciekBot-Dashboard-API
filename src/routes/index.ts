@@ -1,7 +1,8 @@
-const router = require('express').Router();
+import { Router } from 'express';
+import auth from './auth';
+import discord from './discord';
 
-const auth = require('./auth');
-const discord = require('./discord');
+const router = Router();
 
 router.get('/', (req, res) => {
     res.send({
@@ -12,4 +13,4 @@ router.get('/', (req, res) => {
 router.use('/auth', auth);
 router.use('/discord', discord);
 
-module.exports = router;
+export default router;
