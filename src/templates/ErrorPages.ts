@@ -1,5 +1,5 @@
-import { Response } from "express";
-import { Error } from "../utils";
+import { Response } from 'express';
+import { Error } from '../utils';
 
 export const unauthorized = (res: Response) => {
     return new Error(401, 'Unauthorized').send(res);
