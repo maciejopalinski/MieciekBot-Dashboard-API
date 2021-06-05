@@ -5,7 +5,7 @@ import { decrypt, Error } from '../utils';
 import { redis_client } from '../index';
 
 const BOT_TOKEN = process.env.DASHBOARD_API_CLIENT_TOKEN || process.env.BOT_TOKEN;
-const DISCORD_API = (endpoint: string) => 'http://discord.com/api/v8' + endpoint;
+const DISCORD_API = (endpoint: string) => 'https://discord.com/api/v8' + endpoint;
 
 export const getBotGuilds = async () => {
 
