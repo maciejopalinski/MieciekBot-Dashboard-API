@@ -47,6 +47,34 @@ router.get('/guilds/:id/config', async (req, res) => {
     else ErrorPages.unauthorized(res);
 });
 
+// /api/discord/guilds/:id/config
+router.post('/guilds/:id/config', async (req, res) => {
+    let guildID = req.params.id;
+
+    if (req.user) {
+        if (req.body && req.body.guildID == guildID) {
+            getMutualGuilds(req.user)
+            .then(async (mutual) => {
+                if (mutual.some(g => g.id == guildID)) {
+                    Guild.updateOne({ guildID }, req.body)
+                    .then(updated => {
+                        res.send(updated);
+                    })
+                    .catch(err => {
+                        res.status(400).send(err);
+                    });
+                }
+                else ErrorPages.not_found(res);
+            })
+            .catch((err: Error) => {
+                err.send(res);
+            });
+        }
+        else ErrorPages.bad_request(res);
+    }
+    else ErrorPages.unauthorized(res);
+});
+
 // /api/discord/guilds/:id/api
 router.get('/guilds/:id/api', async (req, res) => {
     let guildID = req.params.id;
