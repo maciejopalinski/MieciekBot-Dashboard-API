@@ -24,7 +24,7 @@ const DATABASE = process.env.DASHBOARD_API_DATABASE || process.env.DATABASE;
 const PORT = +process.env.DASHBOARD_API_PORT || +process.env.PORT;
 
 const app = express();
-export const redis_client = redis.createClient();
+export const redis_client = redis.createClient(process.env.REDIS_URL);
 
 mongoose.connect(DATABASE, {
     useNewUrlParser: true,
