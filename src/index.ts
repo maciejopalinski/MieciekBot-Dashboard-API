@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyparser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import session from 'express-session';
@@ -32,6 +33,8 @@ mongoose.connect(DATABASE, {
     useFindAndModify: false,
     useCreateIndex: true
 });
+
+app.use(bodyparser.json());
 
 app.use(cors({
     origin: [ process.env.DASHBOARD_CLIENT_URL ],
