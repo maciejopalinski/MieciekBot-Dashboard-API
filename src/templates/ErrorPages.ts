@@ -6,15 +6,20 @@ export const unauthorized = (res: Response) => {
 }
 
 export const not_found = (res: Response) => {
-    return new Error(404, 'Not found').send(res);
+    return new Error(404, 'Not Found').send(res);
 }
 
 export const too_many_requests = (res: Response) => {
-    return new Error(429, 'Too many requests').send(res);
+    return new Error(429, 'Too Many Requests').send(res);
+}
+
+export const bad_request = (res: Response) => {
+    return new Error(400, 'Bad Request').send(res);
 }
 
 export default {
     unauthorized,
     not_found,
-    too_many_requests
+    too_many_requests,
+    bad_request
 }
