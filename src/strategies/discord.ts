@@ -22,7 +22,7 @@ passport.use(
     new DiscordStrategy({
         clientID: process.env.DASHBOARD_API_CLIENT_ID,
         clientSecret: process.env.DASHBOARD_API_CLIENT_SECRET,
-        callbackURL: '/api/auth/redirect',
+        callbackURL: process.env.DASHBOARD_API_CALLBACK_URL,
         scope: ['identify', 'guilds']
     }, async (accessToken, refreshToken, profile, done) => {
         
