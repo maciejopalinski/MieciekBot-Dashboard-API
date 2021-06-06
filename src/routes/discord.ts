@@ -7,9 +7,7 @@ const router = Router();
 
 // /api/discord/@me
 router.get('/@me', (req, res) => {
-    if(req.user) {
-        res.send(req.user);
-    }
+    if(req.user) res.send(req.user);
     else ErrorPages.unauthorized(res);
 });
 
@@ -17,12 +15,8 @@ router.get('/@me', (req, res) => {
 router.get('/guilds/mutual', async (req, res) => {
     if(req.user) {
         getMutualGuilds(req.user)
-        .then(mutualGuilds => {
-            res.send(mutualGuilds);
-        })
-        .catch((err: Error) => {
-            err.send(res);
-        });
+        .then(res.send)
+        .catch((err: Error) => err.send(res));
     }
     else ErrorPages.unauthorized(res);
 });
@@ -40,9 +34,7 @@ router.get('/guilds/:id/config', async (req, res) => {
             }
             else ErrorPages.not_found(res);
         })
-        .catch((err: Error) => {
-            err.send(res)
-        });
+        .catch((err: Error) => err.send(res));
     }
     else ErrorPages.unauthorized(res);
 });
@@ -54,21 +46,15 @@ router.post('/guilds/:id/config', async (req, res) => {
     if (req.user) {
         if (req.body && req.body.guildID == guildID) {
             getMutualGuilds(req.user)
-            .then(async (mutual) => {
+            .then(mutual => {
                 if (mutual.some(g => g.id == guildID)) {
                     Guild.updateOne({ guildID }, req.body)
-                    .then(updated => {
-                        res.send(updated);
-                    })
-                    .catch(err => {
-                        res.status(400).send(err);
-                    });
+                    .then(res.send)
+                    .catch(res.status(400).send);
                 }
                 else ErrorPages.not_found(res);
             })
-            .catch((err: Error) => {
-                err.send(res);
-            });
+            .catch((err: Error) => err.send(res));
         }
         else ErrorPages.bad_request(res);
     }
@@ -81,12 +67,10 @@ router.get('/guilds/:id/api', async (req, res) => {
 
     if(req.user) {
         getMutualGuilds(req.user)
-        .then(async (mutual) => {
+        .then(mutual => {
             res.send(mutual.find(g => g.id == guildID));
         })
-        .catch((err: Error) => {
-            err.send(res);
-        });
+        .catch((err: Error) => err.send(res));
     }
     else ErrorPages.unauthorized(res);
 });
