@@ -49,8 +49,8 @@ router.post('/guilds/:id/config', async (req, res) => {
             .then(mutual => {
                 if (mutual.some(g => g.id == guildID)) {
                     Guild.updateOne({ guildID }, req.body)
-                    .then(res.send)
-                    .catch(res.status(400).send);
+                    .then(updated => res.send(updated))
+                    .catch(err => res.status(400).send(err));
                 }
                 else ErrorPages.not_found(res);
             })
