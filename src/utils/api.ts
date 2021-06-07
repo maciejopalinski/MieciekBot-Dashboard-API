@@ -1,12 +1,13 @@
-import axios, {AxiosError} from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
 import { GuildInfo } from 'passport-discord';
 import { OAuth2 } from '../database/schemas/OAuth2';
-import { decrypt } from '../utils';
+import { decrypt, Error } from '../utils';
 import { redis_client } from '../index';
 
 axiosRetry(axios, {
     retryCondition: (error) => {
+        if (!error.response) return false;
         return error.response.status === 429;
     },
     retryDelay: (count, error) => {
@@ -21,6 +22,10 @@ const DISCORD_API = (endpoint: string) => 'https://discord.com/api/v8' + endpoin
 const fetchGuilds = async (token_type: 'Bot' | 'Bearer', token: string) => {
     return axios.get<GuildInfo[]>(DISCORD_API('/users/@me/guilds'), {
         headers: { Authorization: `${token_type} ${token}` }
+    })
+    .catch((err: AxiosError) => {
+        if (!err.response || err.response.status !== 429) throw new Error(500, "Internal Server Error");
+        else throw new Error(err.response.status, err.response.statusText);
     });
 }
 
@@ -33,7 +38,8 @@ export const getBotGuilds = async () => {
                 fetchGuilds('Bot', BOT_TOKEN).then(({ data }) => {
                     redis_client.setex('/bot/guilds', 10, JSON.stringify(data));
                     resolve(data);
-                });
+                })
+                .catch((err: Error) => reject(err));
             }
         });
     });
@@ -53,7 +59,8 @@ export const getUserGuilds = async (id: string) => {
                 fetchGuilds('Bearer', accessToken).then(({ data }) => {
                     redis_client.setex(`/user/${id}/guilds`, 10, JSON.stringify(data));
                     resolve(data);
-                });
+                })
+                .catch((err: Error) => reject(err));
             }
         });
     });
