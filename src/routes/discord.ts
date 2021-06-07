@@ -15,7 +15,7 @@ router.get('/@me', (req, res) => {
 router.get('/guilds/mutual', async (req, res) => {
     if(req.user) {
         getMutualGuilds(req.user)
-        .then(res.send)
+        .then(guilds => res.send(guilds))
         .catch((err: Error) => err.send(res));
     }
     else ErrorPages.unauthorized(res);
@@ -68,7 +68,10 @@ router.get('/guilds/:id/api', async (req, res) => {
     if(req.user) {
         getMutualGuilds(req.user)
         .then(mutual => {
-            res.send(mutual.find(g => g.id == guildID));
+            let guild = mutual.find(g => g.id == guildID);
+
+            if (guild) res.send(guild);
+            else ErrorPages.not_found(res);
         })
         .catch((err: Error) => err.send(res));
     }
